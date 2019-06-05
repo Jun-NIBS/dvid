@@ -98,6 +98,28 @@ go get github.com/boltdb/bolt
 # gomdb
 go get github.com/DocSavage/gomdb
 
+#
+# We can't use 'go get github.com/dgraph-io/badger/...' because we don't want the latest tag.
+#   Eventually we should switch to using 'go get' in 'module-aware' mode:
+#   https://golang.org/cmd/go/#hdr-Modules__module_versions__and_more
+#   ...in which case we'll be able to refer to a specific tag of the main badger repo.
+BADGER_DIR=${GOPATH}/src/github.com/dgraph-io/badger
+BADGER_VERSION=v2.0.0-rc.2 # Don't change this without also changing it in meta.yaml!!
+if [[ -d ${BADGER_DIR} ]]; then
+    cd ${BADGER_DIR} && git fetch && cd -
+else
+    git clone https://github.com/dgraph-io/badger ${BADGER_DIR}
+fi
+
+cd ${BADGER_DIR} && git checkout ${BADGER_VERSION} && cd -
+#go install -i github.com/dgraph-io/badger
+
+# badger dependencies
+go get github.com/AndreasBriese/bbloom
+go get github.com/dgryski/go-farm
+go get github.com/pkg/errors
+go get golang.org/x/sys/unix
+go get github.com/dustin/go-humanize
 # kafka
 CONFLUENTINC_DIR=${GOPATH}/src/github.com/confluentinc
 KAFKA_GO_DIR=${CONFLUENTINC_DIR}/confluent-kafka-go
