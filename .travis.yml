@@ -29,9 +29,10 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda config --add channels conda-forge
   - conda config --add channels flyem-forge
-  - conda update -q conda
+  #- conda update -q conda                 # <--- Comment this out
+  - conda install python=3.7.3 conda=4.7.5 # <--- Try this
   - conda install -y conda-build=3.17.8 # Known to work.
   - conda info -a
-
+  
 script:
   conda build scripts/conda-recipe
